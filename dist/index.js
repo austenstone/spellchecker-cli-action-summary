@@ -12602,6 +12602,9 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
             }
             catch (_d) {
                 core.warning(`⚠️ Failed to create check with annotations`);
+                core.startGroup('Request');
+                core.info(JSON.stringify(checkRequest, null, 2));
+                core.endGroup();
                 (_c = checkRequest.output) === null || _c === void 0 ? true : delete _c.annotations;
                 core.info(`🔁 Retrying to create check without annotations...`);
                 yield octokit.rest.checks.create(checkRequest);
