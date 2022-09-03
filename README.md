@@ -6,6 +6,10 @@ An [Action](https://docs.github.com/en/actions) that creates job summaries, stat
 ## Issue & Job Summary
 Get a table of all the misspelled words with suggested fixes and links directly to the file/line. The job summary is always created and the issue summary is created if the job is not of event type `push` or `pull_request`. The issue summary contains all misspelled words but the job summary only contains results from the files that have changed if the event is of type `push` or `pull_request`.
 
+This is some mispeled text.
+
+The dog went to the pakr.
+
 ## Status Checks
 Status checks will be reported if the event is of type `pull_request`.
 ### Annotations
