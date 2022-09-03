@@ -11,6 +11,8 @@ interface Input {
 export function getInputs(): Input {
   const result = {} as Input;
   result['github-token'] = core.getInput('github-token');
+  result['file-json'] = core.getInput('file-json');
+  result['files-changed'] = core.getInput('files-changed');
   return result;
 }
 
