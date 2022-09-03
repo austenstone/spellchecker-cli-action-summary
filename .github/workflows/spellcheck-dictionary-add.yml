@@ -51,7 +51,7 @@ jobs:
             ${{ steps.split.outputs.result }}"
         fi        
       env:
-        GH_TOKEN: ${{ inputs.github-token || secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.github-token || secrets.GITHUB_TOKEN }}
     - uses: actions/github-script@v6
       with:
         script: |
