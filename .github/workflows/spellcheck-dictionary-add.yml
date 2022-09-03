@@ -9,10 +9,9 @@ on:
         required: true
     secrets:
       github-token:
-        words:
-          type: string
-          description: GitHub token
-          required: false
+        type: string
+        description: GitHub token
+        required: false
 
 concurrency: 
   group: spellchecker-dictionary-add
