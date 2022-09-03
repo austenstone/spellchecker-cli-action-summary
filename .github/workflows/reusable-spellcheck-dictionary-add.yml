@@ -1,4 +1,4 @@
-name: Reusable Spell Check .md
+name: Reusable Spell Check Dictionary Add
 on:
   workflow_dispatch:
     inputs:
