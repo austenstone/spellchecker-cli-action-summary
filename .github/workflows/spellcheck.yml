@@ -1,18 +1,5 @@
 name: Spell Check .md
 on:
-  schedule:
-    - cron: "0 0 1 * *"
-  workflow_dispatch:
-  workflow_run:
-    workflows: [Spell Check Dictionary Add]
-    types:
-      - completed
-  pull_request:
-  push:
-    paths:
-      - "**/*.md"
-  # If you're going to call this consider using 
-  # the triggers ^above^ in your caller workflow
   workflow_call:
 
 env:
