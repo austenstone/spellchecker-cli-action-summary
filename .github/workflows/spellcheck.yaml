@@ -1,0 +1,60 @@
+name: Spell Check .md
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Spell Check Dictionary Add]
+    types:
+      - completed
+  pull_request:
+  push:
+    paths:
+      - '**/*.md'
+
+env:
+  JSON_FILE: spell-check.json
+  DICTIONARY_FILE: .github/dictionary.txt
+
+jobs:
+  spellcheck:
+    name: Check Spelling
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run && github.event.workflow_run.conclusion == 'success' || 1 }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: tj-actions/changed-files@v29.0.2
+        id: changed-files
+        with:
+          base_sha: ${{ github.event.pull_request.base.sha }}
+          files: |
+            **/*.md
+      - name: Get File Input
+        id: files
+        run: |
+          if ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}; then
+              echo "::set-output name=files::${{ steps.changed-files.outputs.all_changed_files }}"
+          else
+              echo "::set-output name=files::**/*.md"
+          fi
+      - run: echo "${{ steps.files.outputs.files }}"
+      - id: spellchecker-cli
+        if: ${{ steps.files.outputs.files }}
+        continue-on-error: true
+        run: |
+          npx -y spellchecker-cli --files ${{ steps.files.outputs.files }} \
+            --dictionaries $DICTIONARY_FILE \
+            --ignore "[.0-9]+([Kk][Bb]|[Mm][Bb]|[Gg][Bb])" \
+            --ignore "\b[Ff][0-9]+('?s)?\b" \
+            --ignore "\b[Qq][0-4]\b" \
+            --ignore "\b[Vv][.0-9]\b" \
+            --ignore "\b[Vv]?(\d+\.)?(\d+\.)?(\*|\d+)\b" \
+            --reports $JSON_FILE
+      - uses: actions/upload-artifact@v3
+        if: ${{ steps.spellchecker-cli.conclusion == 'success' }}
+        with:
+          path: ${{ env.JSON_FILE }}
+      - uses: austenstone/spellchecker-cli-action-summary@main
+        if: ${{ steps.spellchecker-cli.conclusion == 'success' }}
+        with:
+          files-changed: ${{ steps.changed-files.outputs.all_changed_files }}
