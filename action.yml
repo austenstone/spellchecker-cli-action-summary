@@ -1,6 +1,6 @@
-name: TypeScript Action
+name: "Spellchecker CLI Summary"
+description: "Output checks, issues, and job summary from Spellchecker CLI"
 author: Austen Stone
-description: A TypeScript Action
 branding:
   icon: "plus"
   color: "blue"
@@ -10,6 +10,13 @@ inputs:
     description: The GitHub token used to create an authenticated client
     default: ${{ github.token }}
     required: false
+  file-json:
+    description: The JSON file output by spellchecker-cli-action
+    required: true
+  files-changed:
+    description: Files changed
+    default: '**/*.md'
+    required: true
 
 runs:
   using: "node16"
