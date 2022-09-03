@@ -1,0 +1,28 @@
+trigger: dictionary
+title: Dictionary Add
+description: Add words to the dictionary
+surfaces:
+  - issue
+  - pull_request
+steps:
+  - type: form
+    style: embedded
+    actions:
+      submit: Add to Dictionary
+      cancel: Cancel
+    body:         
+      - type: textarea
+        validations:
+          required: true
+        attributes:
+          label: Enter words to add to the dictionary
+          id: words
+          description: "You can add multiple words separated by commas, newlines, or spaces."
+          placeholder: GitHub, Git, JavaScript, Kubernetes, Docker
+          
+  - type: repository_dispatch
+    eventType: spellchecker-dictionary-add
+
+  - type: fill 
+    template: |
+      **Added Words:** {{ data.words }}

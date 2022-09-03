@@ -1,33 +1,29 @@
 # Action
+An [Action](https://docs.github.com/en/actions) that creates job summaries, status checks, and issues for markdown spelling errors reported by [tbroadley/spellchecker-cli](https://github.com/tbroadley/spellchecker-cli).
 
-An [Action](https://docs.github.com/en/actions).
+## Issue & Job Summary
+Get a table of all the misspelled words with suggested fixes and links directly to the file/line. The job summary is always created and the issue summary is created if the job is not of event type `push` or `pull_request`. The issue summary contains all misspelled words but the job summary only contains results from the files that have changed if the event is of type `push` or `pull_request`.
+
+## Status Checks
+Status checks will be reported if the event is of type `pull_request`.
+
+### Annotations
+The status checks contain inline annotations that will appear in the files changed view of the pull request.
 
 ## Usage
 Create a workflow (eg: `.github/workflows/seat-count.yml`). See [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file).
 
-<!-- 
-### PAT(Personal Access Token)
-
-You will need to [create a PAT(Personal Access Token)](https://github.com/settings/tokens/new?scopes=admin:org) that has `admin:org` access.
-
-Add this PAT as a secret so we can use it as input `github-token`, see [Creating encrypted secrets for a repository](https://docs.github.com/en/enterprise-cloud@latest/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository). 
-### Organizations
-
-If your organization has SAML enabled you must authorize the PAT, see [Authorizing a personal access token for use with SAML single sign-on](https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-saml-single-sign-on/authorizing-a-personal-access-token-for-use-with-saml-single-sign-on).
--->
-
-#### Example
+#### Reusable Workflow Example
+Use the reusable workflow to easily implement this action in your repository.
 ```yml
-name: TypeScript Action Workflow
+name: Spell Check .md
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: "0 0 1 * *"
 
 jobs:
-  run:
-    name: Run Action
-    runs-on: ubuntu-latest
-    steps:
-      - uses: austenstone/action-typescript@main
+  spellcheck:
+    uses: austenstone/spellchecker-cli-action-summary/.github/workflows/spellcheck.yml@main
 ```
 
 ## ➡️ Inputs
@@ -36,6 +32,8 @@ Various inputs are defined in [`action.yml`](action.yml):
 | Name | Description | Default |
 | --- | - | - |
 | github&#x2011;token | Token to use to authorize. | ${{&nbsp;github.token&nbsp;}} |
+| file-json | JSON file containing the list of files to check. | ${{&nbsp;file-json&nbsp;}} |
+| files-changed | List of files to check. | ${{&nbsp;files-changed&nbsp;}} |
 
 <!-- 
 ## ⬅️ Outputs
@@ -46,7 +44,6 @@ Various inputs are defined in [`action.yml`](action.yml):
 
 ## Further help
 To get more help on the Actions see [documentation](https://docs.github.com/en/actions).
-
 
 Let's introduce some mispelled sentences.
 

@@ -1,0 +1,62 @@
+name: Spell Check Dictionary Add
+
+on:
+  workflow_call:
+    inputs:
+      words:
+        type: string
+        description: Words to add to the dictionary
+        required: true
+
+concurrency: 
+  group: spellchecker-dictionary-add
+  cancel-in-progress: false
+
+env:
+  DICTIONARY_FILE: .github/dictionary.txt
+
+jobs:
+  dictionary-add:
+    name: Dictionary Add
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/github-script@v6
+      id: split
+      with:
+        script: |
+          let words = context.payload.client_payload?.data?.words || context.payload.inputs?.words;
+          words = words.replace(/\r\n/g, '\n')
+          return words.split(/[,\n\r ]/).join('\n');
+    - run: |
+        touch $DICTIONARY_FILE
+        echo "${{ fromJSON(steps.split.outputs.result) }}" >> $DICTIONARY_FILE
+    - run: |
+        git config --global user.name '${{ github.actor }}'
+        git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+    - run: |
+        git add $DICTIONARY_FILE
+        git commit -m "@${{ github.actor }} added words to the dictionary"
+    - run: |
+        if ! git push ; then
+          git branch -M ${{ github.actor }}-dictionary-${{ github.run_id }}-${{ github.run_attempt }}
+          git push -u origin ${{ github.actor }}-dictionary-${{ github.run_id }}-${{ github.run_attempt }}
+          gh pr create \
+            --title "Dictionary updates from @${{ github.actor }}" \
+            --body "@${{ github.actor }} added words to the dictionary \
+            ${{ steps.split.outputs.result }}"
+        fi        
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/github-script@v6
+      with:
+        script: |
+          const issue_number = context.payload.client_payload?.command?.resource?.number;
+          if (issue_number) {
+            await github.rest.issues.createComment({
+              issue_number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `👍 Thanks for adding to the dictionary @${context.actor}!`
+            })
+          }

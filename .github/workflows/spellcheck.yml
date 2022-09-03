@@ -1,16 +1,6 @@
 name: Spell Check .md
 on:
-  schedule:
-    - cron: "0 0 1 * *"
-  workflow_dispatch:
-  workflow_run:
-    workflows: [Spell Check Dictionary Add]
-    types:
-      - completed
-  pull_request:
-  push:
-    paths:
-      - "**/*.md"
+  workflow_call:
 
 env:
   JSON_FILE: spell-check.json
