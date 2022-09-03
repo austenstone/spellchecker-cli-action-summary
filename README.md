@@ -31,9 +31,18 @@ You can use slash commands to add to the dictionary from issues or prs.
 
 ![image](https://user-images.githubusercontent.com/22425467/188254718-e5c41d9b-5df5-4e73-8525-5d1e60dbe1ea.png)
 
+### Workflow Dispatch
 Or you can run it from the Actions workflow page.
 
 ![image](https://user-images.githubusercontent.com/22425467/188254746-905428af-050f-483a-ab51-9280e78d722d.png)
+
+### Protected branches
+If the branch is protected a pull request will be opened.
+
+<img width="518" alt="Screen Shot 2022-09-03 at 12 12 17 AM" src="https://user-images.githubusercontent.com/22425467/188255438-d97a54e2-9505-48c5-b937-de715b2b3838.png">
+
+#### Triggering runs
+Workflows cannot be triggered from other workflows like the dictionary add with the default `GITHUB_TOKEN`. Consider using one of the techniques outlines in [Triggering further workflow runs](https://github.com/peter-evans/create-pull-request/blob/main/docs/concepts-guidelines.md#triggering-further-workflow-runs) by @peter-evans.
 
 ## Usage
 Create a workflow (eg: `.github/workflows/seat-count.yml`). See [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file).
