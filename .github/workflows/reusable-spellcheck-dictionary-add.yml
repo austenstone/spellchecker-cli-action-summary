@@ -9,6 +9,11 @@ on:
   repository_dispatch:
     types: spellchecker-dictionary-add
 
+permissions:
+  pull-requests: write
+  contents: write
+  issues: write
+
 jobs:
   spellcheck:
     uses: austenstone/spellchecker-cli-action-summary/.github/workflows/spellcheck-dictionary-add.yml@main
