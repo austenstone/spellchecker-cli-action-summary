@@ -101,10 +101,11 @@ const run = async (): Promise<void> => {
       
       try {
         await octokit.rest.checks.create(checkRequest);
-      } catch {
+      } catch (err) {
         core.warning(`⚠️ Failed to create check with annotations`);
-        core.startGroup('Request');
-        core.info(JSON.stringify(checkRequest, null, 2));
+        core.startGroup('Error Information');
+        core.warning(`Response: ${JSON.stringify(err, null, 2)}`);
+        core.info(`Request: ${JSON.stringify(checkRequest, null, 2)}`);
         core.endGroup();
         delete checkRequest.output?.annotations;
         core.info(`🔁 Retrying to create check without annotations...`)
