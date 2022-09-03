@@ -1,3 +1,4 @@
+Let's introduce some mispelled sentences.
 # Action
 An [Action](https://docs.github.com/en/actions) that creates job summaries, status checks, and issues for markdown spelling errors reported by [tbroadley/spellchecker-cli](https://github.com/tbroadley/spellchecker-cli).
 
