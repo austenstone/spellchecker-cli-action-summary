@@ -46,7 +46,7 @@ jobs:
         with:
           files: ".github/dictionary.txt"
       - name: Create Dictionary
-        if: steps.check_files.outputs.files_exists == 'true'
+        if: steps.check_files.outputs.files_exists == 'false'
         run: touch ".github/dictionary.txt"
 
       - name: Run spellchecker-cli
