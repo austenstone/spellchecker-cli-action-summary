@@ -1,4 +1,4 @@
-name: Reusable Workflow Spell Check .md
+name: Reusable Spell Check .md
 on:
   schedule:
     - cron: "0 0 1 * *"
