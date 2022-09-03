@@ -41,7 +41,7 @@ jobs:
 
       - name: Run spellchecker-cli
         id: spellchecker-cli
-        if: ${{ steps.files.outputs.files }}
+        # if: ${{ steps.files.outputs.files }}
         continue-on-error: true
         run: |
           npx -y spellchecker-cli --files ${{ steps.files.outputs.files }} \
@@ -61,5 +61,6 @@ jobs:
           path: ${{ env.JSON_FILE }}
       - name: Create Output
         uses: austenstone/spellchecker-cli-action-summary@main
+        # if: ${{ steps.spellchecker-cli.conclusion == 'success' }}
         with:
           files-changed: ${{ steps.changed-files.outputs.all_changed_files }}
