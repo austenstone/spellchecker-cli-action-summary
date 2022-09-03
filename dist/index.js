@@ -12531,7 +12531,7 @@ function getInputs() {
 exports.getInputs = getInputs;
 const MAX_ANNOTATIONS = 50;
 const run = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c;
     try {
         const input = getInputs();
         const octokit = github.getOctokit(input['github-token']);
@@ -12577,9 +12577,9 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
             const checkRequest = Object.assign(Object.assign({}, ownerRepo), { name: 'Spell Check Changed Files', head_sha: ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head.sha) || github.context.sha, status: 'completed', output: {
                     title: 'Spell check must pass',
                     summary: 'Please ensure all words are spelled correctly'
-                } });
+                }, conclusion: 'success' });
             const newMistakes = allRows.filter(row => { var _a; return changedFiles.includes((_a = row[3]) === null || _a === void 0 ? void 0 : _a.file); });
-            if (newMistakes.length) {
+            if (newMistakes.length && checkRequest.output) {
                 checkRequest.output.annotations = newMistakes.slice(0, MAX_ANNOTATIONS).map(row => {
                     const message = row[3];
                     return {
@@ -12600,9 +12600,9 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 yield octokit.rest.checks.create(checkRequest);
             }
-            catch (_c) {
+            catch (_d) {
                 core.warning(`⚠️ Failed to create check with annotations`);
-                delete checkRequest.output.annotations;
+                (_c = checkRequest.output) === null || _c === void 0 ? true : delete _c.annotations;
                 core.info(`🔁 Retrying to create check without annotations...`);
                 yield octokit.rest.checks.create(checkRequest);
             }

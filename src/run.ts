@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { readFileSync } from 'fs';
+import { Endpoints } from "@octokit/types";
 
 interface Input {
   'github-token': string;
@@ -68,7 +69,7 @@ const run = async (): Promise<void> => {
     core.info(`✅ Summary created!`);
 
     if (github.context.eventName === 'pull_request') {
-      const checkRequest: any = {
+      const checkRequest: Endpoints['POST /repos/{owner}/{repo}/check-runs']['parameters'] = {
         ...ownerRepo,
         name: 'Spell Check Changed Files',
         head_sha: github.context.payload.pull_request?.head.sha || github.context.sha,
@@ -76,10 +77,11 @@ const run = async (): Promise<void> => {
         output: {
           title: 'Spell check must pass',
           summary: 'Please ensure all words are spelled correctly'
-        }
+        },
+        conclusion: 'success'
       };
       const newMistakes = allRows.filter(row => changedFiles.includes(row[3]?.file));
-      if (newMistakes.length) {
+      if (newMistakes.length && checkRequest.output) {
         checkRequest.output.annotations = newMistakes.slice(0, MAX_ANNOTATIONS).map(row => {
           const message = row[3];
           return {
@@ -101,7 +103,7 @@ const run = async (): Promise<void> => {
         await octokit.rest.checks.create(checkRequest);
       } catch {
         core.warning(`⚠️ Failed to create check with annotations`);
-        delete checkRequest.output.annotations;
+        delete checkRequest.output?.annotations;
         core.info(`🔁 Retrying to create check without annotations...`)
         await octokit.rest.checks.create(checkRequest);
       }
