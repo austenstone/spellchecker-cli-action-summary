@@ -96,10 +96,15 @@ const run = async (): Promise<void> => {
       } else {
         checkRequest.conclusion = 'success';
       }
-      console.log('annotations', checkRequest.output.annotations);
-      console.log(`request: ${JSON.stringify(checkRequest)}`);
-      const checkResponse = await octokit.rest.checks.create(checkRequest);
-      console.log(`response: ${JSON.stringify(checkResponse)}`)
+      
+      try {
+        await octokit.rest.checks.create(checkRequest);
+      } catch {
+        core.warn(`⚠️ Failed to create check with annotations`);
+        delete checkRequest.output.annotations;
+        core.info(`🔁 Retrying to create check without annotations...`)
+        await octokit.rest.checks.create(checkRequest);
+      }
       core.info(`✅ Check 'Spell Check Changed Files' created!`);
     } else {
       let exists;
