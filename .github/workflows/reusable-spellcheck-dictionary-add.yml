@@ -14,3 +14,5 @@ jobs:
     uses: austenstone/spellchecker-cli-action-summary/.github/workflows/spellcheck-dictionary-add.yml@main
     with:
       words: ${{ inputs.words }}
+      github-token: ${{ secrets.TOKEN }}
+      
