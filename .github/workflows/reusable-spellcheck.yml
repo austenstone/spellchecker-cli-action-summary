@@ -14,4 +14,4 @@ on:
 
 jobs:
   spellcheck:
-    uses: austenstone/spellchecker-cli-action-summary/.github/workflows/spellcheck.yml
+    uses: austenstone/spellchecker-cli-action-summary/.github/workflows/spellcheck.yml@main
