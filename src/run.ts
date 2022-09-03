@@ -33,7 +33,7 @@ const run = async (): Promise<void> => {
     const allRows = allMistakes.map(file => {
       return file.messages.map(mistake => {
         const repoPath = `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}`;
-        const githubURL = encodeURI(`${repoPath}/blob/${github.context.ref}/${mistake.file}?plain=1#L${mistake.line}`);
+        const githubURL = encodeURI(`${repoPath}/blob/${github.context.sha}/${mistake.file}?plain=1#L${mistake.line}`);
         return [
           `${mistake.actual}`,
           `${mistake.expected.length ? mistake.expected.join(', ') : '-'}`,
