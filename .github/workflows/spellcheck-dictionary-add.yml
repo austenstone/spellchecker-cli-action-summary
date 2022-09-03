@@ -14,6 +14,9 @@ concurrency:
   group: spellchecker-dictionary-add
   cancel-in-progress: false
 
+env:
+  DICTIONARY_FILE: .github/dictionary.txt
+
 jobs:
   dictionary-add:
     name: Dictionary Add
@@ -27,11 +30,15 @@ jobs:
           let words = context.payload.client_payload?.data?.words || context.payload.inputs?.words;
           words = words.replace(/\r\n/g, '\n')
           return words.split(/[,\n\r ]/).join('\n');
-    - run: echo "${{ fromJSON(steps.split.outputs.result) }}" >> .github/dictionary.txt
+    - run: |
+        touch $DICTIONARY_FILE
+        echo "${{ fromJSON(steps.split.outputs.result) }}" >> $DICTIONARY_FILE
     - run: |
         git config --global user.name '${{ github.actor }}'
         git config --global user.email '${{ github.actor }}@users.noreply.github.com'
-    - run: git commit -am "@${{ github.actor }} added words to the dictionary"
+    - run: |
+        git add $DICTIONARY_FILE
+        git commit -m "@${{ github.actor }} added words to the dictionary"
     - run: |
         if ! git push ; then
           git branch -M ${{ github.actor }}-dictionary-${{ github.run_id }}-${{ github.run_attempt }}
