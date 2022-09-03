@@ -12529,11 +12529,11 @@ function getInputs() {
 exports.getInputs = getInputs;
 const MAX_ANNOTATIONS = 50;
 const run = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     try {
         const input = getInputs();
         const octokit = github.getOctokit(input['github-token']);
-        const changedFiles = input['files-changed'].split('\n');
+        const changedFiles = (_a = input['files-changed']) === null || _a === void 0 ? void 0 : _a.split('\n');
         const fileName = input['file-json'];
         const ownerRepo = { owner: github.context.repo.owner, repo: github.context.repo.repo };
         const text = (0, fs_1.readFileSync)(fileName, "utf8");
@@ -12572,7 +12572,7 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
         yield summary.write();
         core.info(`✅ Summary created!`);
         if (github.context.eventName === 'pull_request') {
-            const checkRequest = Object.assign(Object.assign({}, ownerRepo), { name: 'Spell Check Changed Files', head_sha: ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.head.sha) || github.context.sha, status: 'completed', output: {
+            const checkRequest = Object.assign(Object.assign({}, ownerRepo), { name: 'Spell Check Changed Files', head_sha: ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head.sha) || github.context.sha, status: 'completed', output: {
                     title: 'Spell check must pass',
                     summary: 'Please ensure all words are spelled correctly'
                 } });
