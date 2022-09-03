@@ -9,6 +9,9 @@ Status checks will be reported if the event is of type `pull_request`.
 ### Annotations
 The status checks contain inline annotations that will appear in the files changed view of the pull request. See [Getting started with the Checks API](https://docs.github.com/en/rest/guides/getting-started-with-the-checks-api).
 
+> **Note**
+> <br>The check may fail with annotations if the exact line number and columns aren't output.<br>See open issue https://github.com/tbroadley/spellchecker-cli/issues/102
+
 ## Usage
 Create a workflow (eg: `.github/workflows/seat-count.yml`). See [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file).
 
