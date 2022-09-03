@@ -30,9 +30,9 @@ Various inputs are defined in [`action.yml`](action.yml):
 
 | Name | Description | Default |
 | --- | - | - |
-| github&#x2011;token | Token to use to authorize. | ${{&nbsp;github.token&nbsp;}} |
-| file-json | JSON file containing the list of files to check. | ${{&nbsp;file-json&nbsp;}} |
-| files-changed | List of files to check. | ${{&nbsp;files-changed&nbsp;}} |
+| github-token | Token to use to authorize. | ${{ github-token }} |
+| file-json | JSON file containing the list of files to check. | ${{ file-json }} |
+| files-changed | List of files to check. | ${{ files-changed }} |
 
 <!-- 
 ## ⬅️ Outputs
