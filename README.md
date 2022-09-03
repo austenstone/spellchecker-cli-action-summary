@@ -17,7 +17,23 @@ The status checks contain inline annotations that will appear in the files chang
 > <br>The check may fail with annotations if the exact line number and columns aren't output.<br>See open issue https://github.com/tbroadley/spellchecker-cli/issues/102
 
 ## Dictionary
-You can use 
+You can use a dictionary located at `.github/dictionary.txt` to ignore words from the spell check.
+```txt
+GitHub
+Git
+Kubernetes
+Spotify
+```
+### Slash commands
+You can use slash commands to add to the dictionary from issues or prs.
+
+![image](https://user-images.githubusercontent.com/22425467/188254700-5e917a37-42fc-45be-bd5e-05775d7aa1ce.png)
+
+![image](https://user-images.githubusercontent.com/22425467/188254718-e5c41d9b-5df5-4e73-8525-5d1e60dbe1ea.png)
+
+Or you can run it from the Actions workflow page.
+
+![image](https://user-images.githubusercontent.com/22425467/188254746-905428af-050f-483a-ab51-9280e78d722d.png)
 
 ## Usage
 Create a workflow (eg: `.github/workflows/seat-count.yml`). See [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file).
