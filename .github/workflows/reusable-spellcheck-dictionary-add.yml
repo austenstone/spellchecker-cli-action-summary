@@ -1,4 +1,4 @@
-name: Test Reusable Workflow Spell Check .md
+name: Reusable Workflow Spell Check .md
 on:
   workflow_dispatch:
     inputs:
