@@ -7,6 +7,12 @@ on:
         type: string
         description: Words to add to the dictionary
         required: true
+  workflow_call:
+    inputs:
+      words:
+        type: string
+        description: Words to add to the dictionary
+        required: true
   repository_dispatch:
     types: spellchecker-dictionary-add
 
@@ -53,7 +59,6 @@ jobs:
     - uses: actions/github-script@v6
       with:
         script: |
-          console.log(JSON.stringify(context));
           const issue_number = context.payload.client_payload?.command?.resource?.number;
           if (issue_number) {
             await github.rest.issues.createComment({

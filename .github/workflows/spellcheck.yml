@@ -11,6 +11,9 @@ on:
   push:
     paths:
       - "**/*.md"
+  # If you're going to call this consider using 
+  # the triggers ^above^ in your caller workflow
+  workflow_call:
 
 env:
   JSON_FILE: spell-check.json

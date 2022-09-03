@@ -1,0 +1,17 @@
+name: Test Reusable Workflow Spell Check .md
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Spell Check Dictionary Add]
+    types:
+      - completed
+  pull_request:
+  push:
+    paths:
+      - "**/*.md"
+
+jobs:
+  spellcheck:
+    uses: austenstone/spellchecker-cli-action-summary/.github/workflows/spellcheck.yml
