@@ -11,12 +11,13 @@ inputs:
     default: ${{ github.token }}
     required: false
   file-json:
+    default: spell-check.json
     description: The JSON file output by spellchecker-cli-action
-    required: true
+    required: false
   files-changed:
-    description: Files changed
     default: '**/*.md'
-    required: true
+    description: Files changed
+    required: false
 
 runs:
   using: "node16"

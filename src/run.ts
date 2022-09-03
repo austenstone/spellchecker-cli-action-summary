@@ -21,7 +21,7 @@ const run = async (): Promise<void> => {
     const input = getInputs();
     const octokit: ReturnType<typeof github.getOctokit> = github.getOctokit(input['github-token']);
 
-    const changedFiles = input['files-changed'].split('\n');
+    const changedFiles = input['files-changed']?.split('\n');
     const fileName = input['file-json'];
     const ownerRepo = { owner: github.context.repo.owner, repo: github.context.repo.repo }
 
