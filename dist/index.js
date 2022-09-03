@@ -12524,6 +12524,8 @@ const fs_1 = __nccwpck_require__(7147);
 function getInputs() {
     const result = {};
     result['github-token'] = core.getInput('github-token');
+    result['file-json'] = core.getInput('file-json');
+    result['files-changed'] = core.getInput('files-changed');
     return result;
 }
 exports.getInputs = getInputs;
@@ -12628,6 +12630,7 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
         core.startGroup(error instanceof Error ? error.message : JSON.stringify(error));
         core.info(JSON.stringify(error, null, 2));
         core.endGroup();
+        throw error;
     }
 });
 exports["default"] = run;
