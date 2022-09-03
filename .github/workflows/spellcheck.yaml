@@ -25,6 +25,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Get Changed Files
         id: changed-files
+        uses: tj-actions/changed-files@v29.0.2
         with:
           base_sha: ${{ github.event.pull_request.base.sha }}
           files: |
@@ -44,8 +45,8 @@ jobs:
         uses: andstor/file-existence-action@v1
         with:
           files: ".github/dictionary.txt"
-      - if: steps.check_files.outputs.files_exists == 'true'
-        name: Create Dictionary
+      - name: Create Dictionary
+        if: steps.check_files.outputs.files_exists == 'true'
         run: touch ".github/dictionary.txt"
 
       - name: Run spellchecker-cli
