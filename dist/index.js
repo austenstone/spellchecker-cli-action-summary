@@ -9561,7 +9561,13 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
         const changedFiles = (_a = input['files-changed']) === null || _a === void 0 ? void 0 : _a.split('\n');
         const fileName = input['file-json'];
         const ownerRepo = { owner: github.context.repo.owner, repo: github.context.repo.repo };
-        const text = (0, fs_1.readFileSync)(fileName, "utf8");
+        let text;
+        try {
+            text = (0, fs_1.readFileSync)(fileName, "utf8");
+        }
+        catch (_d) {
+            text = '[]';
+        }
         const allMistakes = JSON.parse(text);
         const allRows = allMistakes.map(file => {
             return file.messages.map(mistake => {

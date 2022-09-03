@@ -28,7 +28,12 @@ const run = async (): Promise<void> => {
     const fileName = input['file-json'];
     const ownerRepo = { owner: github.context.repo.owner, repo: github.context.repo.repo }
 
-    const text = readFileSync(fileName, "utf8");
+    let text;
+    try {
+      text = readFileSync(fileName, "utf8");
+    } catch {
+      text = '[]';
+    }
     const allMistakes = JSON.parse(text);
     const allRows = allMistakes.map(file => {
       return file.messages.map(mistake => {
