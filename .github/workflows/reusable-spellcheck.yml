@@ -1,4 +1,4 @@
-name: Reusable Spell Check .md
+name: Spell Check .md
 on:
   schedule:
     - cron: "0 0 1 * *"
@@ -8,7 +8,11 @@ on:
     types:
       - completed
   pull_request:
+    branches: [ main ]
+    paths:
+      - "**/*.md"
   push:
+    branches: [ main ]
     paths:
       - "**/*.md"
 
