@@ -10,7 +10,7 @@ on:
   pull_request:
   push:
     paths:
-      - '**/*.md'
+      - "**/*.md"
 
 env:
   JSON_FILE: spell-check.json
@@ -23,7 +23,7 @@ jobs:
     if: ${{ github.event.workflow_run && github.event.workflow_run.conclusion == 'success' || 1 }}
     steps:
       - uses: actions/checkout@v3
-      - uses: tj-actions/changed-files@v29.0.2
+      - name: Get Changed Files
         id: changed-files
         with:
           base_sha: ${{ github.event.pull_request.base.sha }}
@@ -37,8 +37,19 @@ jobs:
           else
               echo "::set-output name=files::**/*.md"
           fi
-      - run: echo "${{ steps.files.outputs.files }}"
-      - id: spellchecker-cli
+          echo "${{ steps.files.outputs.files }}"
+
+      - name: Check for Dictionary
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: ".github/dictionary.txt"
+      - if: steps.check_files.outputs.files_exists == 'true'
+        name: Create Dictionary
+        run: touch ".github/dictionary.txt"
+
+      - name: Run spellchecker-cli
+        id: spellchecker-cli
         if: ${{ steps.files.outputs.files }}
         continue-on-error: true
         run: |
@@ -50,11 +61,14 @@ jobs:
             --ignore "\b[Vv][.0-9]\b" \
             --ignore "\b[Vv]?(\d+\.)?(\d+\.)?(\*|\d+)\b" \
             --reports $JSON_FILE
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload JSON Artifact
+        uses: actions/upload-artifact@v3
         if: ${{ steps.spellchecker-cli.conclusion == 'success' }}
         with:
           path: ${{ env.JSON_FILE }}
-      - uses: austenstone/spellchecker-cli-action-summary@main
+      - name: Create Output
+        uses: austenstone/spellchecker-cli-action-summary@main
         if: ${{ steps.spellchecker-cli.conclusion == 'success' }}
         with:
           files-changed: ${{ steps.changed-files.outputs.all_changed_files }}
