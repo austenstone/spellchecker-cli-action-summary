@@ -51,6 +51,7 @@ jobs:
             --ignore "\b[Qq][0-4]\b" \
             --ignore "\b[Vv][.0-9]\b" \
             --ignore "\b[Vv]?(\d+\.)?(\d+\.)?(\*|\d+)\b" \
+            --plugins spell indefinite-article repeated-words syntax-mentions syntax-urls \
             --reports $JSON_FILE
 
       - name: Upload JSON Artifact
