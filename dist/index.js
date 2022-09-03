@@ -12597,18 +12597,15 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
             else {
                 checkRequest.conclusion = 'success';
             }
-            console.log('annotations', checkRequest.output.annotations);
-            console.log(`request: ${JSON.stringify(checkRequest)}`);
             try {
-              const checkResponse = yield octokit.rest.checks.create(checkRequest);
-            } catch {
-              core.warn(`⚠️ Failed to create check with annotations`);
-              delete checkRequest.output.annotations;
-              core.info(`🔁 Retrying to create check without annotations...`)
-              const checkResponse = yield octokit.rest.checks.create(checkRequest);
+                yield octokit.rest.checks.create(checkRequest);
             }
-            
-            console.log(`response: ${JSON.stringify(checkResponse)}`);
+            catch (_c) {
+                core.warning(`⚠️ Failed to create check with annotations`);
+                delete checkRequest.output.annotations;
+                core.info(`🔁 Retrying to create check without annotations...`);
+                yield octokit.rest.checks.create(checkRequest);
+            }
             core.info(`✅ Check 'Spell Check Changed Files' created!`);
         }
         else {
