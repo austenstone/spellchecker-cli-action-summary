@@ -7,11 +7,12 @@ on:
         type: string
         description: Words to add to the dictionary
         required: true
-    github-token:
-      words:
-        type: string
-        description: GitHub token
-        required: false
+    secrets:
+      github-token:
+        words:
+          type: string
+          description: GitHub token
+          required: false
 
 concurrency: 
   group: spellchecker-dictionary-add
