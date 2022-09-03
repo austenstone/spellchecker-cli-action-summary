@@ -10,16 +10,42 @@ This is some mispeled text.
 
 The dog went to the pakr.
 
+![image](https://user-images.githubusercontent.com/22425467/188254502-5f07ea12-f65e-4956-b46e-62645e63b02e.png)
+
 ## Status Checks
 Status checks will be reported if the event is of type `pull_request`.
 ### Annotations
 The status checks contain inline annotations that will appear in the files changed view of the pull request. See [Getting started with the Checks API](https://docs.github.com/en/rest/guides/getting-started-with-the-checks-api).
 
+![image](https://user-images.githubusercontent.com/22425467/188254398-e1d99d0b-bc40-4787-b1fc-898b6ebf2a4e.png)
+
+> **Note**
+> <br>The check may fail with annotations if the exact line number and columns aren't output.<br>See open issue https://github.com/tbroadley/spellchecker-cli/issues/102
+
+## Dictionary
+You can use a dictionary located at `.github/dictionary.txt` to ignore words from the spell check.
+```txt
+GitHub
+Git
+Kubernetes
+Spotify
+```
+### Slash commands
+You can use slash commands to add to the dictionary from issues or prs.
+
+![image](https://user-images.githubusercontent.com/22425467/188254700-5e917a37-42fc-45be-bd5e-05775d7aa1ce.png)
+
+![image](https://user-images.githubusercontent.com/22425467/188254718-e5c41d9b-5df5-4e73-8525-5d1e60dbe1ea.png)
+
+Or you can run it from the Actions workflow page.
+
+![image](https://user-images.githubusercontent.com/22425467/188254746-905428af-050f-483a-ab51-9280e78d722d.png)
+
 ## Usage
 Create a workflow (eg: `.github/workflows/seat-count.yml`). See [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file).
 
 #### Reusable Workflow Example
-Use the reusable workflow to easily implement this action in your repository.
+Use the reusable workflow [`spellcheck.yml`](.github/workflows/spellcheck.yml) to easily implement this action in your repository.
 ```yml
 name: Spell Check .md
 on:
@@ -29,6 +55,24 @@ on:
 jobs:
   spellcheck:
     uses: austenstone/spellchecker-cli-action-summary/.github/workflows/spellcheck.yml@main
+```
+#### Reusable Workflow Example Dictionary Add
+You can also add dictionary functionality.
+```yml
+name: Spell Check Dictionary Add
+on:
+  workflow_dispatch:
+    inputs:
+      words:
+        type: string
+        description: Words to add to the dictionary
+        required: true
+
+jobs:
+  spellcheck:
+    uses: austenstone/spellchecker-cli-action-summary/.github/workflows/spellcheck-dictionary-add.yml@main
+    with:
+      words: ${{ inputs.words }}
 ```
 
 ## ➡️ Inputs

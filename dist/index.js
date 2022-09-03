@@ -12559,7 +12559,6 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
         }, {});
         const wordCountRowsSorted = Object.entries(wordCountRows).sort((a, b) => b[1] - a[1]);
         const summary = core.summary
-            .addHeading('Spell Check', 1)
             .addHeading(`Found ${tableRows.length} misspelled words`, 2)
             .addTable([
             [{ data: 'Actual', header: true }, { data: 'Expected', header: true }, { data: 'File', header: true }],
