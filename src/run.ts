@@ -136,6 +136,7 @@ const run = async (): Promise<void> => {
     core.startGroup(error instanceof Error ? error.message : JSON.stringify(error));
     core.info(JSON.stringify(error, null, 2));
     core.endGroup();
+    throw error;
   }
 };
 
