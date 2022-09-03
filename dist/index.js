@@ -12599,7 +12599,15 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
             }
             console.log('annotations', checkRequest.output.annotations);
             console.log(`request: ${JSON.stringify(checkRequest)}`);
-            const checkResponse = yield octokit.rest.checks.create(checkRequest);
+            try {
+              const checkResponse = yield octokit.rest.checks.create(checkRequest);
+            } catch {
+              core.warn(`⚠️ Failed to create check with annotations`);
+              delete checkRequest.output.annotations;
+              core.info(`🔁 Retrying to create check without annotations...`)
+              const checkResponse = yield octokit.rest.checks.create(checkRequest);
+            }
+            
             console.log(`response: ${JSON.stringify(checkResponse)}`);
             core.info(`✅ Check 'Spell Check Changed Files' created!`);
         }
