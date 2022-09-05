@@ -48,6 +48,7 @@ jobs:
           gh pr create \
             --title "Dictionary updates from @${{ github.actor }}" \
             --body "@${{ github.actor }} added words to the dictionary \
+            --label "spell check" \
             ${{ steps.split.outputs.result }}"
         fi        
       env:
