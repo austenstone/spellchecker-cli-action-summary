@@ -127,11 +127,16 @@ const run = async (): Promise<void> => {
       }
 
       let issueResponse;
+      const issueContent = {
+        title: 'Spell Check',
+        labels: ['Spell Check'],
+        body
+      }
       if (exists) {
         issueResponse = await octokit.rest.issues.update({
           ...ownerRepo,
           issue_number: exists.number,
-          body
+          ...issueContent,
         })
         core.notice(`Issue updated: ${issueResponse.data.html_url}`);
         const commentResponse = await octokit.rest.issues.createComment({
@@ -143,8 +148,7 @@ const run = async (): Promise<void> => {
       } else {
         issueResponse = await octokit.rest.issues.create({
           ...ownerRepo,
-          title: 'Spell Check',
-          body
+          ...issueContent,
         })
         core.notice(`Issue created: ${issueResponse.data.html_url}`);
       }
