@@ -129,7 +129,7 @@ const run = async (): Promise<void> => {
       let issueResponse;
       const issueContent = {
         title: 'Spell Check',
-        labels: ['Spell Check'],
+        labels: ['spell check'],
         body
       }
       if (exists) {

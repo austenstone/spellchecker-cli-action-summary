@@ -12630,7 +12630,7 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
             let issueResponse;
             const issueContent = {
                 title: 'Spell Check',
-                labels: ['Spell Check'],
+                labels: ['spell check'],
                 body
             };
             if (exists) {
