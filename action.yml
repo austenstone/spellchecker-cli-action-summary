@@ -3,7 +3,7 @@ description: "Output checks, issues, and job summary from Spellchecker CLI"
 author: Austen Stone
 branding:
   icon: "check-circle"
-  color: "blue"
+  color: "yellow"
 
 inputs:
   github-token:
