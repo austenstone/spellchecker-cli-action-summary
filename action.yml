@@ -2,7 +2,7 @@ name: "Spellchecker CLI Summary"
 description: "Output checks, issues, and job summary from Spellchecker CLI"
 author: Austen Stone
 branding:
-  icon: "plus"
+  icon: "check-circle"
   color: "blue"
 
 inputs:
