@@ -119,7 +119,7 @@ const run = async (): Promise<void> => {
     } else {
       let exists;
       try {
-        const q = `is:issue state:open repo:${github.context.repo.owner}/${github.context.repo.repo}`;
+        const q = `is:issue state:open repo:${github.context.repo.owner}/${github.context.repo.repo} label:"spell check"`;
         const searchResponse = await octokit.rest.search.issuesAndPullRequests({ q });
         exists = searchResponse.data.items[0];
       } catch (error) {
