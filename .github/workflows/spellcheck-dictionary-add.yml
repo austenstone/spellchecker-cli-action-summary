@@ -49,7 +49,7 @@ jobs:
             --title "Dictionary updates from @${{ github.actor }}" \
             --body "@${{ github.actor }} added words to the dictionary \
             --label "spell check" \
-            ${{ steps.split.outputs.result }}"
+            "${{ steps.split.outputs.result }}"
         fi        
       env:
         GH_TOKEN: ${{ secrets.github-token || secrets.GITHUB_TOKEN }}
