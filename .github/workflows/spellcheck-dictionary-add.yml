@@ -47,9 +47,8 @@ jobs:
           git push -u origin ${{ github.actor }}-dictionary-${{ github.run_id }}-${{ github.run_attempt }}
           gh pr create \
             --title "Dictionary updates from @${{ github.actor }}" \
-            --body "@${{ github.actor }} added words to the dictionary \
-            --label "spell check" \
-            ${{ steps.split.outputs.result }}"
+            --body "@${{ github.actor }} added words to the dictionary" \
+            --label "spell check"
         fi        
       env:
         GH_TOKEN: ${{ secrets.github-token || secrets.GITHUB_TOKEN }}
